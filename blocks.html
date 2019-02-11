@@ -1,0 +1,12 @@
+<!-- default.pug--><!DOCTYPE html><html><head><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"><link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.2.0/css/all.css"><title>Test</title><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><style>body {
+	margin: 0;
+	overflow: hidden;
+	background-color: rgb(17, 45, 89);
+}
+.controls {
+	touch-action: manipulation;
+}
+.canvas-container {
+	touch-action: manipulation;
+}
+</style></head><body><div class="canvas-container text-center"><canvas class="mx-auto" id="canvas"></canvas></div><div class="controls text-center d-flex justify-content-around align-items-center"><div class="directional d-flex flex-row align-items-center"><button class="btn btn-primary btn-lg" type="button" id="leftButton"><i class="far fa-long-arrow-left fa-fw"></i></button><div class="up-down flex-column d-flex"><button class="btn btn-primary btn-lg" type="button" id="upButton"><i class="far fa-long-arrow-up fa-fw"></i></button><button class="btn btn-primary btn-lg" type="button" id="downButton"><i class="far fa-long-arrow-down fa-fw"></i></button></div><button class="btn btn-primary btn-lg" type="button" id="rightButton"><i class="far fa-long-arrow-right fa-fw"></i></button></div><div class="rotation"><button class="btn btn-primary btn-lg" type="button" id="holdButton"><i class="far fa-sync"></i></button><button class="btn btn-primary btn-lg" type="button" id="rotateCCW"><i class="far fa-undo"></i></button><button class="btn btn-primary btn-lg" type="button" id="rotateCW"><i class="far fa-redo"></i></button></div></div><script src="./client/js/bundle.js"></script></body></html>

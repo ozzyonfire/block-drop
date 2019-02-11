@@ -1,0 +1,40 @@
+extends templates/default
+
+append head
+	title Test
+	meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
+	style.
+		body {
+			margin: 0;
+			overflow: hidden;
+			background-color: rgb(17, 45, 89);
+		}
+		.controls {
+			touch-action: manipulation;
+		}
+		.canvas-container {
+			touch-action: manipulation;
+		}
+
+append body
+	.canvas-container.text-center
+		canvas.mx-auto#canvas
+	.controls.text-center.d-flex.justify-content-around.align-items-center
+		.directional.d-flex.flex-row.align-items-center
+			button.btn.btn-primary.btn-lg(type="button")#leftButton
+				i.far.fa-long-arrow-left.fa-fw
+			.up-down.flex-column.d-flex
+				button.btn.btn-primary.btn-lg(type="button")#upButton
+					i.far.fa-long-arrow-up.fa-fw
+				button.btn.btn-primary.btn-lg(type="button")#downButton
+					i.far.fa-long-arrow-down.fa-fw
+			button.btn.btn-primary.btn-lg(type="button")#rightButton
+				i.far.fa-long-arrow-right.fa-fw
+		.rotation
+			button.btn.btn-primary.btn-lg(type="button")#holdButton
+				i.far.fa-sync
+			button.btn.btn-primary.btn-lg(type="button")#rotateCCW
+				i.far.fa-undo
+			button.btn.btn-primary.btn-lg(type="button")#rotateCW
+				i.far.fa-redo
+	script(src="./client/js/bundle.js")

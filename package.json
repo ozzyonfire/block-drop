@@ -1,0 +1,14 @@
+{
+  "name": "blocks",
+  "version": "1.0.0",
+  "description": "Falling blocks",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Oskamp",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
