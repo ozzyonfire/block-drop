@@ -40,6 +40,7 @@ Game.prototype.gameLoop = function(now) {
 Game.prototype.gameUpdate = function(deltaTime) {
 	if (deltaTime)
 		this.gravityTimer += deltaTime;
+	console.log(this.player.gravity());
 	if (this.gravityTimer >= this.player.gravity()) {
 		this.currentPiece.drop();
 		this.gravityTimer = 0;
@@ -49,6 +50,13 @@ Game.prototype.gameUpdate = function(deltaTime) {
 		this.board.checkLine();
 		this.getNextPiece();
 	}
+	this.updateScore();
+}
+
+Game.prototype.updateScore = function() {
+	$('#score').text(this.player.score);
+	$('#lines').text(this.player.lines);
+	$('#level').text(this.player.level);
 }
 
 Game.prototype.renderUpdate = function() {

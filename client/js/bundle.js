@@ -297,6 +297,7 @@ Game.prototype.gameLoop = function(now) {
 Game.prototype.gameUpdate = function(deltaTime) {
 	if (deltaTime)
 		this.gravityTimer += deltaTime;
+	console.log(this.player.gravity());
 	if (this.gravityTimer >= this.player.gravity()) {
 		this.currentPiece.drop();
 		this.gravityTimer = 0;
@@ -306,6 +307,13 @@ Game.prototype.gameUpdate = function(deltaTime) {
 		this.board.checkLine();
 		this.getNextPiece();
 	}
+	this.updateScore();
+}
+
+Game.prototype.updateScore = function() {
+	$('#score').text(this.player.score);
+	$('#lines').text(this.player.lines);
+	$('#level').text(this.player.level);
 }
 
 Game.prototype.renderUpdate = function() {
@@ -405,14 +413,17 @@ Player.prototype.gravity = function() {
 		return 288 - (lines * 4);
 	} else if (this.level == 7) {
 		return 208 - (lines * 4);
+	} else {
+		return 200;
 	}
 }
 
 Player.prototype.scoreLines = function(lines) {
-	console.log(this.score);
-	console.log(this.level);
+	//console.log(this.score);
+	//console.log(this.level);
+	console.log(lines);
 	this.lines += lines;
-	if (this.lines % 10 == 0) {
+	if (this.lines > 0 && this.lines % 10 == 0) {
 		this.level++;
 	}
 	switch(lines) {

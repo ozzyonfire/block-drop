@@ -17,8 +17,14 @@ append head
 		}
 
 append body
-	.canvas-container.text-center
-		canvas.mx-auto#canvas
+	.row
+		.col
+			p.text-white#score
+			p.text-white#level
+			p.text-white#lines
+		.col
+			.canvas-container.text-center
+				canvas.mx-auto#canvas
 	.controls.text-center.d-flex.justify-content-around.align-items-center
 		.directional.d-flex.flex-row.align-items-center
 			button.btn.btn-primary.btn-lg(type="button")#leftButton
