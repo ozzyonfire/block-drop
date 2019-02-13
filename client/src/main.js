@@ -8,6 +8,8 @@ function update(now) {
 	theGame.gameLoop(now);
 }
 
+global.game = theGame;
+
 update();
 
 $(window).on('keydown', function(e) {

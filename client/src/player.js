@@ -25,19 +25,16 @@ Player.prototype.gravity = function() {
 		return 288 - (lines * 4);
 	} else if (this.level == 7) {
 		return 208 - (lines * 4);
+	} else if (this.level == 8) {
+		return 180 - (lines * 3);
 	} else {
-		return 200;
+		return 100;
 	}
 }
 
 Player.prototype.scoreLines = function(lines) {
-	//console.log(this.score);
-	//console.log(this.level);
-	console.log(lines);
 	this.lines += lines;
-	if (this.lines > 0 && this.lines % 10 == 0) {
-		this.level++;
-	}
+	this.level = Math.floor(this.lines / 10);
 	switch(lines) {
 		case 1:
 			this.score += 100 * this.level;

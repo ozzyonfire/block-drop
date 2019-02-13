@@ -35,7 +35,7 @@ Board.prototype.print = function() {
 		console.log(line);
 	}
 
-Board.prototype.addPolymino = function(tetromino) {
+Board.prototype.addPolyomino = function(tetromino) {
 	let r = tetromino.positon.row;
 	let c = tetromino.positon.col;
 
@@ -131,7 +131,8 @@ Board.prototype.checkLine = function() {
 		this.colours.unshift(colourRow);
 		i++;
 	}
-	this.player.scoreLines(rowCount);
+	if (rowCount > 0)
+		this.player.scoreLines(rowCount);
 }
 
 module.exports = Board;

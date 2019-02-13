@@ -19,9 +19,10 @@ append head
 append body
 	.row
 		.col
-			p.text-white#score
-			p.text-white#level
-			p.text-white#lines
+			p.text-white Score: 
+				span#score
+			p.text-white Level: #[span#level]
+			p.text-white Lines: #[span#lines]
 		.col
 			.canvas-container.text-center
 				canvas.mx-auto#canvas

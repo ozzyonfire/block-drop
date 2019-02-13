@@ -40,13 +40,13 @@ Game.prototype.gameLoop = function(now) {
 Game.prototype.gameUpdate = function(deltaTime) {
 	if (deltaTime)
 		this.gravityTimer += deltaTime;
-	console.log(this.player.gravity());
 	if (this.gravityTimer >= this.player.gravity()) {
-		this.currentPiece.drop();
+		if (!this.currentPiece.landed)
+			this.currentPiece.drop();
 		this.gravityTimer = 0;
 	}
-	if (this.currentPiece.landed) {
-		this.board.addPolymino(this.currentPiece);
+	if (this.currentPiece.locked) {
+		this.board.addPolyomino(this.currentPiece);
 		this.board.checkLine();
 		this.getNextPiece();
 	}
