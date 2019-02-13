@@ -390,6 +390,7 @@ $('#canvas').on('touchstart', function(e) {
 	}
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"./game":3,"jquery":8}],5:[function(require,module,exports){
 // player.js
 "use strict";
@@ -476,19 +477,179 @@ Polyomino.prototype.lockedTimer = _.debounce(function() {
 	if (!polyomino.drop() && polyomino.landed) {
 		polyomino.locked = true;
 	}
-}, 480);
+}, 384); // 24 frame delay
 
 Polyomino.prototype.rotateCCW = function() {
 	let tempPiece = rotatePieceCCW(this.piece);
-	if (this.checkCollision(tempPiece, this.positon)) {
+	let rotated = false;
+	if (this.checkCollision(tempPiece, this.positon)) { // normal rotation
 		this.piece = tempPiece;
+		rotated = true;
+	}	else {
+		rotated = this.wallKick(1, tempPiece, false); // wall kicks
+	}
+
+	if (rotated) {
+		switch (this.state) {
+			case state.NORTH:
+				this.state = state.WEST;
+				break;
+			case state.EAST:
+				this.state = state.NORTH;
+				break;
+			case state.SOUTH:
+				this.state = state.EAST;
+				break;
+			case state.WEST:
+				this.state = state.SOUTH;
+				break;
+		}
+	}
+}
+
+Polyomino.prototype.wallKick = function(testNumber, tempPiece, clockwise) {
+	if (testNumber > 4) {
+		return false;
+	}
+	let tempPosition = {
+		row: this.positon.row,
+		col: this.positon.col
+	};
+	switch (this.state) {
+		case state.NORTH:
+			switch (testNumber) {
+				case 1:
+					if (clockwise) // 0 >> 1
+						tempPosition.col -= 1;
+					else // 0 >> 3
+						tempPosition.col += 1;
+					break;
+				case 2:
+					if (clockwise) { // 0 >> 1
+						tempPosition.col -= 1;
+						tempPosition.row += 1;
+					} else { // 0 >> 3
+						tempPosition.row += 1;
+						tempPosition.col += 1;
+					}
+					break;
+				case 3:
+						tempPosition.row -= 2; // 0 >> 1 & 0 >> 3
+					break;
+				case 4:
+					if (clockwise) { // 0 >> 1
+						tempPosition.col -= 1;
+						tempPosition.row -= 2;
+					} else { // 0 >> 3
+						tempPosition.col += 1;
+						tempPosition.row -= 2;
+					}
+					break;
+			}
+			break;
+		case state.EAST:
+			switch (testNumber) {
+				case 1: // 1 >> 2 & 1 >> 0
+					tempPosition.col += 1;
+					break;
+				case 2: // 1 >> 2 & 1 >> 0
+					tempPosition.col += 1;
+					tempPosition.row -= 1;
+					break;
+				case 3:
+					tempPosition.row += 2; // 1 >> 2 & 1 >> 0
+					break;
+				case 4:
+					tempPosition.col += 1;
+					tempPosition.row += 2;
+					break;
+			}
+			break;
+		case state.SOUTH:
+			switch(testNumber) {
+				case 1:
+					if (clockwise) { // 2 >> 3
+						tempPosition.col += 1;
+					} else { // 2 >> 1
+						tempPosition.col -= 1;
+					}
+					break;
+				case 2:
+					if (clockwise) { // 2 >> 3
+						tempPosition.col += 1;
+						tempPosition.row += 1;
+					} else { // 2 >> 1
+						tempPosition.col -= 1;
+						tempPosition.row += 1;
+					}
+					break;
+				case 3: // 2 >> 3 & 2 >> 1
+					tempPosition.row -= 2;
+					break;
+				case 4:
+					if (clockwise) { // 2 >> 3
+						tempPosition.col += 1;
+						tempPosition.row -= 2;
+					} else { // 2 >> 1
+						tempPosition.col -= 1;
+						tempPosition.row -= 2;
+					}
+					break;
+			}
+			break;
+		case state.WEST:
+			switch(testNumber) {
+				case 1:
+					tempPosition.col -= 1;
+					break;
+				case 2:
+					tempPosition.col -= 1;
+					tempPosition.row -= 1;
+					break;
+				case 3:
+					tempPosition.row -= 2;
+					break;
+				case 4:
+					tempPosition.col -= 1;
+					tempPosition.row += 2;
+					break;
+			}
+			break;
+	}
+	if (this.checkCollision(tempPiece, tempPosition)) {
+		this.positon = tempPosition;
+		this.piece = tempPiece;
+		return true;
+	} else {
+		return this.wallKick(++testNumber, tempPiece, clockwise);
 	}
 }
 
 Polyomino.prototype.rotateCW = function() {
 	let tempPiece = rotatePieceCW(this.piece);
-	if (this.checkCollision(tempPiece, this.positon)) {
+	let rotated = false;
+	if (this.checkCollision(tempPiece, this.positon)) { // normal rotatation
 		this.piece = tempPiece;
+		rotated = true;
+	} else {
+		rotated = this.wallKick(1, tempPiece, true); // wall kicks
+	}
+
+	if (rotated) {
+		switch (this.state) {
+			case state.NORTH:
+				this.state = state.EAST;
+				break;
+			case state.EAST:
+				this.state = state.SOUTH;
+				break;
+			case state.SOUTH:
+				this.state = state.WEST;
+				break;
+			case state.WEST:
+				this.state = state.NORTH;
+				break;
+		}
 	}
 }
 
@@ -28150,4 +28311,6 @@ return jQuery;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[4]);
+
+},{}]},{},[4])
+//# sourceMappingURL=bundle.js.map
