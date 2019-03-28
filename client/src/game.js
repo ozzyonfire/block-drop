@@ -45,10 +45,12 @@ Game.prototype.gameUpdate = function(deltaTime) {
 			this.currentPiece.drop();
 		this.gravityTimer = 0;
 	}
-	if (this.currentPiece.locked) {
+	if (this.currentPiece.locked && !this.board.animating) {
 		this.board.addPolyomino(this.currentPiece);
-		this.board.checkLine();
-		this.getNextPiece();
+		let game = this;
+		this.board.checkLine(function() {
+			game.getNextPiece();
+		});
 	}
 	this.updateScore();
 }

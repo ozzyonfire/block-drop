@@ -120,6 +120,9 @@ module.exports.o = o;
 // board.js
 "use strict";
 
+let whiteBlock = new Image();
+whiteBlock.src = './client/img/blocks/white-block.gif';
+
 function Board(rows, cols, buffer, player) {
 	this.rows = rows;
 	this.cols = cols;
@@ -130,6 +133,7 @@ function Board(rows, cols, buffer, player) {
 	let height = window.innerHeight;
 	this.height = height - height * 0.2; // 20% of the height
 	this.width = this.height / ((this.rows - buffer) / this.cols);
+	this.animating = false;
 	var left = 0;
 	var top = 0;
 	for (let i = 0; i < this.grid.length; i++) {
@@ -171,9 +175,7 @@ Board.prototype.addPolyomino = function(tetromino) {
 
 Board.prototype.reset = function() {
 	for (let i = 0; i < this.grid.length; i++) {
-		for (let j = 0; j < this.grid[0].length; j++) {
-			grid[i][j] = 0;
-		}
+		grid[i].fill(0);
 	}
 }
 
@@ -193,7 +195,11 @@ Board.prototype.drawBlocks = function(ctx) {
 			let fill = this.grid[i][j];
 			if (fill) {
 				let coord = this.getCoordinate(i, j);
-				ctx.drawImage(this.colours[i][j], coord.x, coord.y, this.gridWidth, this.gridHeight);
+				if (fill == 2) {
+					ctx.drawImage(whiteBlock, coord.x, coord.y, this.gridWidth, this.gridHeight);
+				} else {
+					ctx.drawImage(this.colours[i][j], coord.x, coord.y, this.gridWidth, this.gridHeight);
+				}
 			}
 		}
 	}
@@ -235,23 +241,38 @@ Board.prototype.draw = function(ctx, canvas) {
 	this.drawBlocks(ctx);
 }
 
-Board.prototype.checkLine = function() {
-	let rowCount = 0;
+Board.prototype.checkLine = function(callback) {
+	let lines = []; // the index of the line to remove
 	outer: for (let i = this.rows - 1; i > 0; i--) {
 		for (let j = 0; j < this.cols; j++) {
 			if (this.grid[i][j] === 0)
 				continue outer;
 		}
 		// full line here
-		let row = this.grid.splice(i, 1)[0].fill(0);
-		this.grid.unshift(row);
-		let colourRow = this.colours.splice(i, 1)[0].fill(0);
-		rowCount++;
-		this.colours.unshift(colourRow);
-		i++;
+		lines.push(i);
+		this.grid[i].fill(2);
 	}
-	if (rowCount > 0)
-		this.player.scoreLines(rowCount);
+	if (lines.length > 0) {
+		this.player.scoreLines(lines.length);
+		let board = this;
+		this.animating = true;
+		setTimeout(function() {
+			let lineCount = 0;
+			lines.forEach(function(index) {
+				index += lineCount;
+				let row = board.grid.splice(index, 1)[0].fill(0);
+				board.grid.unshift(row);
+				let colourRow = board.colours.splice(index, 1)[0].fill(0);
+				board.colours.unshift(colourRow);
+				lineCount++;
+			});
+			board.animating = false;
+			callback();
+		}, 200);
+	} else {
+		callback();
+	}
+
 }
 
 module.exports = Board;
@@ -303,10 +324,12 @@ Game.prototype.gameUpdate = function(deltaTime) {
 			this.currentPiece.drop();
 		this.gravityTimer = 0;
 	}
-	if (this.currentPiece.locked) {
+	if (this.currentPiece.locked && !this.board.animating) {
 		this.board.addPolyomino(this.currentPiece);
-		this.board.checkLine();
-		this.getNextPiece();
+		let game = this;
+		this.board.checkLine(function() {
+			game.getNextPiece();
+		});
 	}
 	this.updateScore();
 }
