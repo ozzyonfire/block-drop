@@ -11,6 +11,12 @@ interface GameOptions {
 	canvas: HTMLCanvasElement
 }
 
+enum GameState {
+	PLAYING,
+	PAUSED,
+	GAMEOVER
+}
+
 class Game {
 	player: Player;
 	board: Board;
@@ -21,6 +27,7 @@ class Game {
 	lastUpdate: number;
 	gravityTimer: number;
 	options: GameOptions;
+	gameState: GameState;
 
 	constructor(options: GameOptions) {
 		this.player = new Player();
@@ -38,6 +45,7 @@ class Game {
 		this.lastUpdate = 0;
 		this.gravityTimer = 0;
 		this.currentPiece = this.getNextPolyomino();
+		this.gameState = GameState.PLAYING;
 	}
 
 	getNextPolyomino() {
@@ -62,7 +70,9 @@ class Game {
 		}
 		let deltaTime = now - this.lastUpdate;
 		this.lastUpdate = now;
-		this.gameUpdate(deltaTime);
+		if (this.gameState == GameState.PLAYING) {
+			this.gameUpdate(deltaTime);
+		}
 		this.renderUpdate();
 	}
 
@@ -101,6 +111,25 @@ class Game {
 		this.board.draw(this.ctx, this.canvas);
 		this.currentPiece.draw(this.ctx);
 		this.currentPiece.drawGhost(this.ctx);
+	}
+
+	start() {
+		const update: FrameRequestCallback = (now) => {
+			requestAnimationFrame(update);
+			this.gameLoop(now);
+		}
+
+		console.log('starting game loop');
+		update(0);
+		this.gameState = GameState.PLAYING;
+	}
+
+	togglePause() {
+		if (this.gameState == GameState.PAUSED) {
+			this.gameState = GameState.PLAYING;
+		} else if (this.gameState == GameState.PLAYING) {
+			this.gameState = GameState.PAUSED;
+		}
 	}
 }
 

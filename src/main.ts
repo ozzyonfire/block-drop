@@ -8,16 +8,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	const theGame = new Game({
 		canvas: canvas,
-
 	});
 
-	const update: FrameRequestCallback = (now) => {
-		requestAnimationFrame(update);
-		theGame.gameLoop(now);
-	}
-
-	console.log('starting game loop');
-	update(0);
+	theGame.start();
 
 	window.addEventListener('keydown', function (e) {
 		if (e.key == 'ArrowLeft' || e.key == 'a') { // left
@@ -32,6 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
 			theGame.currentPiece.rotateCW();
 		} else if (e.key == 'ArrowUp' || e.key == 'w') {  // up
 			theGame.currentPiece.hardDrop();
+		} else if (e.key == 'Escape') {
+			theGame.togglePause();
 		}
 	});
 });
