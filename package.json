@@ -4,18 +4,24 @@
   "description": "Falling blocks",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development --watch"
   },
   "author": "Matt Oskamp",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.3.1",
-    "lodash": "^4.17.11"
+    "jquery": "^3.7.0"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-pro": "^5.7.2",
-    "browserify": "^16.2.3",
-    "pug": "^2.0.3",
-    "pug-cli": "^1.0.0-alpha6"
+    "@fortawesome/fontawesome-pro": "https://ec-fontawesome-pro.s3.ca-central-1.amazonaws.com/fortawesome-fontawesome-pro-5.15.1.tgz",
+    "@types/lodash": "^4.14.195",
+    "browserify": "^16.5.2",
+    "lodash": "^4.17.21",
+    "pug": "^2.0.4",
+    "pug-cli": "1.0.0-alpha6",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
   }
 }

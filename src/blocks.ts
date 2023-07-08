@@ -1,27 +1,35 @@
-// block-data.js
-"use strict";
-
-let blueBlock = new Image();
+const blueBlock = new Image();
 blueBlock.src = './client/img/blocks/blue-block.gif';
-let greenBlock = new Image();
+const greenBlock = new Image();
 greenBlock.src = './client/img/blocks/green-block.gif';
-let cyanBlock = new Image();
+const cyanBlock = new Image();
 cyanBlock.src = './client/img/blocks/cyan-block.gif';
-let purpleBlock = new Image();
+const purpleBlock = new Image();
 purpleBlock.src = './client/img/blocks/purple-block.gif';
-let orangeBlock = new Image();
+const orangeBlock = new Image();
 orangeBlock.src = './client/img/blocks/orange-block.gif';
-let yellowBlock = new Image();
+const yellowBlock = new Image();
 yellowBlock.src = './client/img/blocks/yellow-block.gif';
-let redBlock = new Image();
+const redBlock = new Image();
 redBlock.src = './client/img/blocks/red-block.gif';
 
+export interface Block {
+	piece: number[][];
+	colour: {
+		r: number,
+		g: number,
+		b: number,
+		a: number
+	},
+	sprite: HTMLImageElement
+}
+
 // define the pieces
-let i = {
+const i: Block = {
 	piece: [[0, 0, 0, 0],
-					[1, 1, 1, 1],
-					[0, 0, 0, 0],
-					[0, 0, 0, 0]],
+	[1, 1, 1, 1],
+	[0, 0, 0, 0],
+	[0, 0, 0, 0]],
 	colour: {
 		r: 84,
 		g: 201,
@@ -30,11 +38,11 @@ let i = {
 	},
 	sprite: cyanBlock
 };
-				
-let t = {
+
+const t: Block = {
 	piece: [[0, 1, 0],
-					[1, 1, 1],
-					[0, 0, 0]],
+	[1, 1, 1],
+	[0, 0, 0]],
 	colour: {
 		r: 165,
 		g: 121,
@@ -44,10 +52,10 @@ let t = {
 	sprite: purpleBlock
 };
 
-let j =  {
+const j: Block = {
 	piece: [[1, 0, 0],
-					[1, 1, 1],
-					[0, 0, 0]],
+	[1, 1, 1],
+	[0, 0, 0]],
 	colour: {
 		r: 66,
 		g: 157,
@@ -57,10 +65,10 @@ let j =  {
 	sprite: blueBlock
 };
 
-let l = {
+const l: Block = {
 	piece: [[0, 0, 1],
-					[1, 1, 1],
-					[0, 0, 0]],
+	[1, 1, 1],
+	[0, 0, 0]],
 	colour: {
 		r: 246,
 		g: 138,
@@ -70,9 +78,9 @@ let l = {
 	sprite: orangeBlock
 };
 
-let o = {
+const o: Block = {
 	piece: [[1, 1],
-					[1, 1]],
+	[1, 1]],
 	colour: {
 		r: 252,
 		g: 227,
@@ -82,10 +90,10 @@ let o = {
 	sprite: yellowBlock
 };
 
-let s = { 
+const s: Block = {
 	piece: [[0, 1, 1],
-					[1, 1, 0],
-					[0, 0, 0]],
+	[1, 1, 0],
+	[0, 0, 0]],
 	colour: {
 		r: 104,
 		g: 109,
@@ -95,10 +103,10 @@ let s = {
 	sprite: greenBlock
 };
 
-let z = {
-	piece: [[1, 1, 0], 
-					[0, 1, 1],
-					[0, 0, 0]],
+const z: Block = {
+	piece: [[1, 1, 0],
+	[0, 1, 1],
+	[0, 0, 0]],
 	colour: {
 		r: 237,
 		g: 43,
@@ -108,10 +116,12 @@ let z = {
 	sprite: redBlock
 };
 
-module.exports.t = t;
-module.exports.i = i;
-module.exports.j = j;
-module.exports.l = l;
-module.exports.s = s;
-module.exports.z = z;
-module.exports.o = o;
+export {
+	t,
+	i,
+	j,
+	l,
+	s,
+	z,
+	o
+}

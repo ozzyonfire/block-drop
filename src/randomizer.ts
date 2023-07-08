@@ -1,7 +1,5 @@
-// randomizer.js
-"use strict";
 
-let blockData = require('./block-data');
+import * as blockData from './blocks';
 
 function newBag() {
 	let bag = [];
@@ -21,4 +19,4 @@ function newBag() {
 	return bag;
 }
 
-module.exports.newBag = newBag;
+export default newBag;
